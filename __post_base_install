@@ -65,8 +65,9 @@ with super-user privileges?" && opts+=("%wheel ALL=(ALL:ALL) ALL")
     ask_y_n "Would you like to disable this timeout?" && opts+=("Defaults passwd_timeout=0")
 
     for o in "${opts[@]}"; do
-        ! grep -q "^\s*${o}\s*$" "$sudoers" && rules+=$'\n'
+        ! grep -q "^\s*${o}\s*$" "$sudoers" && rules+="$o"$'\n'
     done
+    echo "$rules" >> "$sudoers"
 }
 
 setup_sudo_rs() {
